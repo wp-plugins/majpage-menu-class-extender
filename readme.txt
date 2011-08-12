@@ -2,7 +2,7 @@
 Contributors: duzymaju
 Tags: menu, wp_nav_menu, classes, tags, first, last, even, odd
 Requires at least: 3.0.0
-Tested up to: 3.2.1
+Tested up to: 3.1.2
 Stable tag: trunk
 
 Adds classes to first, last, even and odd elements of wp_nav_menu.
@@ -28,10 +28,17 @@ Plugin adds the following classes to &lt;li&gt; tags:
 
 == Changelog ==
 
+= 1.1 =
+* Bug fixed with HTML special chars existence.
+* Improved menu list searching inside a container.
+
 = 1.0 =
 * First version of plugin.
 
 == Upgrade Notice ==
+
+= 1.1 =
+Changes were made due to instability in case of HTML special chars existence.
 
 = 1.0 =
 This is the first version of plugin.
