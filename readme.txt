@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== MAJpage Menu Class Extender ===
 Contributors: duzymaju
 Tags: menu, wp_nav_menu, classes, tags, first, last, even, odd
 Requires at least: 3.0.0
@@ -11,12 +11,12 @@ Adds classes to first, last, even and odd elements of wp_nav_menu.
 
     This plugin was written to add classes to first, last, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
 
-Plugin adds the following classes to <li> tags:
+Plugin adds the following classes to &lt;li&gt; tags:
 
-*   "first-menu-item" to every first child of <ul> tag,
-*   "last-menu-item" to every last child of <ul> tag,
-*   "odd-menu-item" to every odd child of <ul> tag, including first and/or last child,
-*   "even-menu-item" to every even child of <ul> tag, including first and/or last child.
+*   "first-menu-item" to every first child of &lt;ul&gt; tag,
+*   "last-menu-item" to every last child of &lt;ul&gt; tag,
+*   "odd-menu-item" to every odd child of &lt;ul&gt; tag, including first and/or last child,
+*   "even-menu-item" to every even child of &lt;ul&gt; tag, including first and/or last child.
 
     Above classes are added separately to each menu level.
 
