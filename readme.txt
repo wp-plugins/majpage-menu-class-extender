@@ -9,7 +9,7 @@ Adds classes to first, last, even and odd elements of wp_nav_menu.
 
 == Description ==
 
-    This plugin was written to add classes to first, last, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
+    This simple plugin was written to add classes to first, last, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
 
 Plugin adds the following classes to &lt;li&gt; tags:
 
@@ -18,7 +18,7 @@ Plugin adds the following classes to &lt;li&gt; tags:
 *   "odd-menu-item" to every odd child of &lt;ul&gt; tag, including first and/or last child,
 *   "even-menu-item" to every even child of &lt;ul&gt; tag, including first and/or last child.
 
-    Above classes are added separately to each menu level.
+    Above classes are added separately to each menu level. Plugin use SimpleXML extension and requires PHP 5 or higher.
 
 == Installation ==
 
