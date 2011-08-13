@@ -22,7 +22,7 @@ Plugin adds the following classes to &lt;li&gt; tags:
 
 == Installation ==
 
-1. Upload 'majpage_mce.php' to the '/wp-content/plugins/' directory.
+1. Upload 'majpage-menu-class-extender.php' to the '/wp-content/plugins/' directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. That's all - plugin is fully operational and adds specified classes in every wp_nav_menu element.
 
