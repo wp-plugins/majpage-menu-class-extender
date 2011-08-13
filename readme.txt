@@ -1,32 +1,37 @@
 === MAJpage Menu Class Extender ===
 Contributors: duzymaju
-Tags: menu, wp_nav_menu, classes, tags, first, last, even, odd
+Tags: menu, wp_nav_menu, classes, tags, first, last, parent, even, odd, :first-child, :last-child, :nth-child
 Requires at least: 3.0.0
-Tested up to: 3.1.2
-Stable tag: trunk
+Tested up to: 3.2.1
+Stable tag: 1.2
 
-Adds classes to first, last, even and odd elements of wp_nav_menu.
+Adds classes to first, last, parent, even and odd elements of wp_nav_menu.
 
 == Description ==
 
-    This simple plugin was written to add classes to first, last, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
+    This simple plugin was written to add classes to first, last, parent, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
 
-Plugin adds the following classes to &lt;li&gt; tags:
+Plugin adds the following classes to menu &lt;li&gt; tags:
 
 *   "first-menu-item" to every first child of &lt;ul&gt; tag,
 *   "last-menu-item" to every last child of &lt;ul&gt; tag,
+*   "parent-menu-item" to every child of &lt;ul&gt; tag that has another &lt;ul&gt; tag inside (a parent to another menu level),
 *   "odd-menu-item" to every odd child of &lt;ul&gt; tag, including first and/or last child,
 *   "even-menu-item" to every even child of &lt;ul&gt; tag, including first and/or last child.
 
-    Above classes are added separately to each menu level. Plugin use SimpleXML extension and requires PHP 5 or higher.
+    Above classes are added separately to each menu level. Plugin use SimpleXML extension and requires PHP 5 or higher. Menu should have valid XHTML code.
 
 == Installation ==
 
-1. Upload 'majpage-menu-class-extender.php' to the '/wp-content/plugins/' directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
+1. Upload "majpage-menu-class-extender.php" to the "/wp-content/plugins/" directory.
+2. Activate the plugin through the "Plugins" menu in WordPress.
 3. That's all - plugin is fully operational and adds specified classes in every wp_nav_menu element.
 
 == Changelog ==
+
+= 1.2 =
+* Bug fixed with correct working in case of wp_nav_menu container absence.
+* "parent-menu-item" class added.
 
 = 1.1 =
 * Bug fixed with HTML special chars existence.
@@ -36,6 +41,9 @@ Plugin adds the following classes to &lt;li&gt; tags:
 * First version of plugin.
 
 == Upgrade Notice ==
+
+= 1.2 =
+Changes were made due to instability in case of menu container absence.
 
 = 1.1 =
 Changes were made due to instability in case of HTML special chars existence.
