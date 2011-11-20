@@ -3,7 +3,7 @@
 Plugin Name: MAJpage Menu Class Extender
 Description: Adds classes to first, last, parent, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
 Author: Wiktor Maj
-Version: 1.2
+Version: 1.3b
 Author URI: http://majpage.com
 */
 
@@ -14,13 +14,22 @@ if( class_exists( 'SimpleXMLElement' ) ) {
   try {
    $xml = new SimpleXMLElement( preg_replace( '#>([^<]+)<#i', '><![CDATA[\\1]]><', $output ), LIBXML_NOWARNING );
   }
-  catch(Exception $e) {
+  catch( Exception $e ) {
    return $output;
   }
-  if( $xml->li ) $item = $xml;
-   else list( , $item ) = each( $xml->xpath( 'ul' ) );
-  if( count( $item ) ) return preg_replace( '#<\?[^>]*\?>#', '<!-- Menu modified by MAJpage Menu Class Extender -->', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', majpage_mce_level( $item )->asXML() ) );
-   else return $output;
+  $container = array();
+  if( ! $xml->li ) {
+   list( , $item ) = each( $xml->xpath( 'ul' ) );
+   if( ! $item ) list( , $item ) = each( $xml->xpath( 'menu' ) );
+   if( $item ) {
+	$container = array( '<' . $xml->getName(), '</' . $xml->getName() . '>' );
+	foreach( $xml->attributes() as $key => $value ) $container[0] .= ' ' . $key . '="' . $value . '"';
+	$container[0] .= '>';
+   }
+  }
+  else $item = $xml;
+  if( count( $item ) ) return '<!-- Menu modified by MAJpage Menu Class Extender -->' . $container[0]. preg_replace( '#<\?[^>]*\?>#', '', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', majpage_mce_level( $item )->asXML() ) ) . $container[1];
+   else return $container[0] . $output . $container[1];
  }
 
  function majpage_mce_level( $xml ) {
@@ -33,6 +42,10 @@ if( class_exists( 'SimpleXMLElement' ) ) {
     if( $item->ul ) {
 	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
 	 majpage_mce_level( $item->ul );
+	}
+    elseif( $item->menu ) {
+	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
+	 majpage_mce_level( $item->menu );
 	}
     if( $i == $count ) $attributes['class'] = 'last-menu-item ' . $attributes['class'];
     if( $i == 1 ) $attributes['class'] = 'first-menu-item ' . $attributes['class'];
