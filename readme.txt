@@ -30,7 +30,7 @@ Plugin adds the following classes to menu &lt;li&gt; tags:
 == Changelog ==
 
 = 1.3 =
-* HTML5 &lt;menu&gt; tag support added thanks to Tomas Kapler notice.
+* HTML5 &lt;menu&gt; tag support added thanks to Tomas Kapler's notice.
 * wp_nav_menu container tag support included.
 
 = 1.2 =
