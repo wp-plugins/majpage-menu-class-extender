@@ -2,7 +2,7 @@
 Contributors: duzymaju
 Tags: menu, wp_nav_menu, classes, tags, first, last, parent, even, odd, :first-child, :last-child, :nth-child
 Requires at least: 3.0.0
-Tested up to: 3.3
+Tested up to: 3.4
 Stable tag: 1.3
 
 Adds classes to first, last, parent, even and odd elements of wp_nav_menu.
