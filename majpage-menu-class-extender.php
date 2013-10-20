@@ -12,47 +12,51 @@ class MAJpageMCE
 
  public static function add( $output )
  {
-  libxml_use_internal_errors( false );
+  $xmlInternalErrors = libxml_use_internal_errors( false );
   try {
    $xml = new SimpleXMLElement( preg_replace( '#>([^<]+)<#i', '><![CDATA[\\1]]><', $output ), LIBXML_NOWARNING );
-  }
-  catch( Exception $e ) {
+  } catch( Exception $e ) {
    return $output;
   }
   $container = array();
   if( ! $xml->li ) {
    list( , $item ) = each( $xml->xpath( 'ul' ) );
-   if( ! $item ) list( , $item ) = each( $xml->xpath( 'menu' ) );
+   if( ! $item ) {
+    list( , $item ) = each( $xml->xpath( 'menu' ) );
+   }
    if( $item ) {
 	$container = array( '<' . $xml->getName(), '</' . $xml->getName() . '>' );
-	foreach( $xml->attributes() as $key => $value ) $container[0] .= ' ' . $key . '="' . $value . '"';
+	foreach( $xml->attributes() as $key => $value ) {
+     $container[0] .= ' ' . $key . '="' . $value . '"';
+    }
 	$container[0] .= '>';
    }
+  } else {
+   $item = $xml;
   }
-  else $item = $xml;
-  if( count( $item ) ) return '<!-- Menu modified by MAJpage Menu Class Extender -->' . $container[0]. preg_replace( '#<\?[^>]*\?>#', '', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', self::_nextLevel( $item )->asXML() ) ) . $container[1];
-   else return $container[0] . $output . $container[1];
+  libxml_use_internal_errors( $xmlInternalErrors );
+  return count( $item ) > 0 ? '<!-- Menu modified by MAJpage Menu Class Extender -->' . $container[0]. preg_replace( '#<\?[^>]*\?>#', '', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', self::_nextLevel( $item )->asXML() ) ) . $container[1] : $container[0] . $output . $container[1];
  }
 
  private static function _nextLevel( $xml )
  {
-  if( 0 < $count = count( $xml->li ) ) {
+  $count = count( $xml->li );
+  if( $count > 0 ) {
    $i = 1;
    foreach( $xml->li as $item ) {
     $attributes = $item->attributes();
-    if( $i % 2 ) $attributes['class'] = 'odd-menu-item ' . $attributes['class'];
-     else $attributes['class'] = 'even-menu-item ' . $attributes['class'];
-    if( $item->ul ) {
+    $attributes['class'] = ( $i % 2 == 1 ? 'odd' : 'even' ) . '-menu-item ' . $attributes['class'];
+    if( $item->ul || $item->menu ) {
 	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
-	 self::_nextLevel( $item->ul );
+	 self::_nextLevel( $item->ul ? $item->ul : $item->menu );
 	}
-    elseif( $item->menu ) {
-	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
-	 self::_nextLevel( $item->menu );
-	}
-    if( $i == $count ) $attributes['class'] = 'last-menu-item ' . $attributes['class'];
-    if( $i == 1 ) $attributes['class'] = 'first-menu-item ' . $attributes['class'];
-    $i ++;
+    if( $i == $count ) {
+     $attributes['class'] = 'last-menu-item ' . $attributes['class'];
+    }
+    if( $i == 1 ) {
+     $attributes['class'] = 'first-menu-item ' . $attributes['class'];
+    }
+    $i++;
    }
   }
   return $xml;
