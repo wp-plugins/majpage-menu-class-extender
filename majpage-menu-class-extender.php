@@ -7,9 +7,11 @@ Version: 1.3
 Author URI: http://majpage.com
 */
 
-if( class_exists( 'SimpleXMLElement' ) ) {
+class MAJpageMCE
+{
 
- function majpage_mce( $output ) {
+ public static function add( $output )
+ {
   libxml_use_internal_errors( false );
   try {
    $xml = new SimpleXMLElement( preg_replace( '#>([^<]+)<#i', '><![CDATA[\\1]]><', $output ), LIBXML_NOWARNING );
@@ -28,11 +30,12 @@ if( class_exists( 'SimpleXMLElement' ) ) {
    }
   }
   else $item = $xml;
-  if( count( $item ) ) return '<!-- Menu modified by MAJpage Menu Class Extender -->' . $container[0]. preg_replace( '#<\?[^>]*\?>#', '', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', majpage_mce_level( $item )->asXML() ) ) . $container[1];
+  if( count( $item ) ) return '<!-- Menu modified by MAJpage Menu Class Extender -->' . $container[0]. preg_replace( '#<\?[^>]*\?>#', '', preg_replace( '#<!\[CDATA\[([^<]+)\]\]>#', '\\1', self::_nextLevel( $item )->asXML() ) ) . $container[1];
    else return $container[0] . $output . $container[1];
  }
 
- function majpage_mce_level( $xml ) {
+ private static function _nextLevel( $xml )
+ {
   if( 0 < $count = count( $xml->li ) ) {
    $i = 1;
    foreach( $xml->li as $item ) {
@@ -41,11 +44,11 @@ if( class_exists( 'SimpleXMLElement' ) ) {
      else $attributes['class'] = 'even-menu-item ' . $attributes['class'];
     if( $item->ul ) {
 	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
-	 majpage_mce_level( $item->ul );
+	 self::_nextLevel( $item->ul );
 	}
     elseif( $item->menu ) {
 	 $attributes['class'] = 'parent-menu-item ' . $attributes['class'];
-	 majpage_mce_level( $item->menu );
+	 self::_nextLevel( $item->menu );
 	}
     if( $i == $count ) $attributes['class'] = 'last-menu-item ' . $attributes['class'];
     if( $i == 1 ) $attributes['class'] = 'first-menu-item ' . $attributes['class'];
@@ -55,8 +58,11 @@ if( class_exists( 'SimpleXMLElement' ) ) {
   return $xml;
  }
 
- add_filter( 'wp_nav_menu', 'majpage_mce' );
-
 }
 
-?>
+if( class_exists( 'SimpleXMLElement' ) ) {
+
+ add_filter( 'wp_nav_menu', array( 'MAJpageMCE', 'add' ) );
+ add_filter( 'wp_page_menu', array( 'MAJpageMCE', 'add' ) );
+
+}
