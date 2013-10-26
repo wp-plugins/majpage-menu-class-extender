@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: MAJpage Menu Class Extender
-Description: Adds classes to first, last, parent, even and odd elements of wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
+Description: Adds classes to first, last, parent, even and odd elements of wp_page_menu and wp_nav_menu to support recognizing it in older browsers without :first-child, :last-child and :nth-child supporting.
 Author: Wiktor Maj
 Version: 1.4
 Author URI: http://www.majpage.com
